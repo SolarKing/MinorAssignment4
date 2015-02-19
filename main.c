@@ -51,6 +51,9 @@
 // function prototypes go here
 char ** initDynamicArray(int, char const*[], int);
 
+
+char * createAndLoadDynArray(char **, int);
+
 // void cleanDynamicArray(char ***, int);
 
 // void openFile(int, char *[]);
@@ -64,8 +67,10 @@ int main(int argc, char const *argv[]) {
 
    // this will become a dynamic array of dynamic c-style strings
    char **storage = NULL;
+   // this will be the output
+   char *output = NULL;
 
-   int x; // idk what this does?
+   // int x; // idk what this does?
 
    // printf("Running the function \"loadDynamicArray\"...\n"); // for debugging
 
@@ -75,10 +80,12 @@ int main(int argc, char const *argv[]) {
    storage = initDynamicArray(argc, argv, MAX_STRING_LEN);
 
    // printf("Success\n"); // for debugging
+   output = createAndLoadDynArray(storage, MAX_STRING_LEN);
 
    /**
     * This snippet of code will print every string in the array.
     */
+   
    printf("Elements in the array:\n");
    int storageLength = 0;
    do {
@@ -88,11 +95,15 @@ int main(int argc, char const *argv[]) {
    // printf("A total of %d items were printed.\n", i);
 
    // clean memory
-   printf("Cleaning memory...\n"); // for debugging
+   printf("Cleaning storage memory...\n"); // for debugging
    for (int i = storageLength-1; i >= 0; i--) {
       free(storage[i]);
    }
    free(storage);
+   printf("Memory is clean!\n"); // for debugging
+
+   printf("Cleaning output memory...\n"); // for debugging
+   free(output);
    printf("Memory is clean!\n"); // for debugging
    return 0;
 }
@@ -163,6 +174,102 @@ char ** initDynamicArray(int argc, char const *argv[], int max) {
    return dynArray;
 }
 
-// void cleanDynamicArray(char ***dynArray, int numElements) {
-   
-// }
+char* createAndLoadDynArray(char **s, int max) {
+
+   // CREATE OUTPUT ARRAY HERE!!!
+
+   char *dynArray; // temp array
+   int sizeOfStorage = 0;
+   int sizeOfOutput = 0;
+   // determine size of array
+   int i = 0;
+   while (s[i] != NULL) {
+      int j = 0;
+      while(s[i][j] != '\0') {
+         // printf("debug: s[i][j] = %c\n", s[i][j]);
+         sizeOfOutput++;
+         // printf("debug: sizeOfStorage = %d\n", sizeOfStorage);
+         j++;
+      }
+      //printf("debug: s[i] = %s\n", s[i]);
+      sizeOfStorage++;
+      sizeOfOutput+=4;
+      //printf("debug: sizeOfStorage = %d\n", sizeOfStorage);
+      i++;
+   }
+   printf("debug: sizeOfOutput = %d\n", sizeOfOutput);
+
+   // allocates memeory for the number of elements in the dynArray
+   printf("debug: Allocating Memory for dynArray...\n"); // for debugging
+   dynArray = malloc(sizeOfOutput * sizeof(char*));
+   printf("debug: Success\n"); // for debugging
+
+   // LOAD DATA INTO ARRAY HERE!!!
+   i = 0;
+   int k = 0;
+   for (int i=0; i < sizeOfStorage; i++) {
+      if (strcmp(s[i], "if") == 0) {
+         printf("debug: entered \"if\" condition\n");
+         int j = 0;
+         dynArray[k] = '\n';
+         k++;
+         while (s[i][j] != '\0') {
+            if (s[i][j] != '\0') {
+               dynArray[k] = s[i][j++];
+               k++;
+            }
+         }
+         dynArray[k] = ' ';
+         k++;
+
+      } else if (strcmp(s[i], "then") == 0) {
+         printf("debug: entered \"then\" condition\n");
+         dynArray[k] = '\n';
+         k++;
+         int j = 0;
+         while (s[i][j] != '\0') {
+            if (s[i][j] != '\0') {
+               dynArray[k] = s[i][j++];
+               k++;
+            }
+         }
+         dynArray[k] = '\n';
+         k++;
+
+      } else if (strcmp(s[i], "=") == 0) {
+         dynArray[k-1] = '=';
+         k;
+      } else {
+         printf("debug: entered else condition\n");
+         int j = 0;
+
+         while (s[i][j] != '\0') {
+            if (s[i][j] == '[') {
+               dynArray[k] = s[i][j++];
+               k++;
+               dynArray[k] = ' ';
+               k++;
+            } else if (s[i][j] == ']') {
+               dynArray[k] = ' ';
+               k++;
+               dynArray[k] = s[i][j++];
+               k++;
+            } else /*(s[i][j] != '\0')*/ {
+               dynArray[k] = s[i][j++];
+               k++;
+            }
+         }
+         dynArray[k] = ' ';
+         k++;
+      }
+   }
+   printf("debug: output = \"%s\"\n", dynArray);
+
+   return dynArray;
+}
+
+
+
+
+
+
