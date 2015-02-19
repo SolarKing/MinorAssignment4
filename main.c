@@ -54,6 +54,8 @@ char ** initDynamicArray(int, char const*[], int);
 
 char * createAndLoadDynArray(char **, int);
 
+void createFile(char *);
+
 // void cleanDynamicArray(char ***, int);
 
 // void openFile(int, char *[]);
@@ -93,6 +95,9 @@ int main(int argc, char const *argv[]) {
       ++storageLength;
    } while (storage[storageLength] != '\0');
    // printf("A total of %d items were printed.\n", i);
+
+
+   createFile(output);
 
    // clean memory
    printf("Cleaning storage memory...\n"); // for debugging
@@ -238,7 +243,6 @@ char* createAndLoadDynArray(char **s, int max) {
 
       } else if (strcmp(s[i], "=") == 0) {
          dynArray[k-1] = '=';
-         k;
       } else {
          printf("debug: entered else condition\n");
          int j = 0;
@@ -266,6 +270,12 @@ char* createAndLoadDynArray(char **s, int max) {
    printf("debug: output = \"%s\"\n", dynArray);
 
    return dynArray;
+}
+
+void createFile(char *out) {
+   FILE *file = fopen("output.sh", "w");
+   fprintf(file, "%s\n", out);
+   fclose(file);
 }
 
 
