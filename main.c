@@ -77,7 +77,7 @@ int main(int argc, char const *argv[])
    // printf("A total of %d items were printed.\n", i);
 
    // this creates an "output.sh" file
-   printf("Creating \"output.sh\"...\n");
+   printf("Generating \"output.sh\"...\n");
    createFile(output);
    printf("Success!\n");
 
@@ -251,11 +251,14 @@ char* createAndLoadDynArray(char **s, int max, int wc)
          dynArray[k] = '\n';
          k++;
 
-      } else if (strcmp(s[i], "=") == 0) {
+      }
+      else if (strcmp(s[i], "=") == 0)
+      {
          dynArray[k-1] = '=';
-      } else if (s[i][0] == '#'){
-         j = 0;
-         
+      } 
+      else if (s[i][0] == '#')
+      {
+         j = 0;   
          while (s[i][j] != '\0')
          {
             if (s[i][j] == '[') {
@@ -263,34 +266,45 @@ char* createAndLoadDynArray(char **s, int max, int wc)
                k++;
                dynArray[k] = ' ';
                k++;
-            } else if (s[i][j] == ']') {
+            } 
+            else if (s[i][j] == ']')
+            {
                dynArray[k] = ' ';
                k++;
                dynArray[k] = s[i][j++];
                k++;
-            } else /*(s[i][j] != '\0')*/ {
+            }
+            else 
+            {
                dynArray[k] = s[i][j++];
                k++;
             }
          }
          dynArray[k++] = '\n';
-      } else {
+      }
+      else
+      {
          // printf("debug: entered else condition\n");
          j = 0;
 
          while (s[i][j] != '\0')
          {
-            if (s[i][j] == '[') {
+            if (s[i][j] == '[')
+            {
                dynArray[k] = s[i][j++];
                k++;
                dynArray[k] = ' ';
                k++;
-            } else if (s[i][j] == ']') {
+            }
+            else if (s[i][j] == ']')
+            {
                dynArray[k] = ' ';
                k++;
                dynArray[k] = s[i][j++];
                k++;
-            } else /*(s[i][j] != '\0')*/ {
+            }
+            else
+            {
                dynArray[k] = s[i][j++];
                k++;
             }
@@ -304,7 +318,8 @@ char* createAndLoadDynArray(char **s, int max, int wc)
    return dynArray;
 }
 
-void createFile(char *out) {
+void createFile(char *out)
+{
    // printf("debug: creating the file...\n");
    FILE *file = fopen("output.sh", "w");
    // printf("debug: Success!\n");
