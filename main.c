@@ -192,9 +192,11 @@ char* createAndLoadDynArray(char **s, int max, int wc)
    // determine size of array
    int i = 0; // loop counter
    int j = 0; // loop counter
-   for (i = 0; i <= wc; i++) {
+   for (i = 0; i <= wc; i++)
+   {
       j = 0;
-      while(s[i][j] != '\0') {
+      while(s[i][j] != '\0')
+      {
          // printf("debug: s[%d][%d] = %c\n",i, j, s[i][j]);
          sizeOfOutput++;
          // printf("debug: sizeOfOutput = %d\n", sizeOfOutput);
@@ -216,13 +218,16 @@ char* createAndLoadDynArray(char **s, int max, int wc)
    i = 0;
    int k = 0;
    for (i=0; i < sizeOfStorage; i++) {
-      if (strcmp(s[i], "if") == 0 || strcmp(s[i], "elif") == 0) {
+      if (strcmp(s[i], "if") == 0 || strcmp(s[i], "elif") == 0)
+      {
          // printf("debug: entered \"if\" condition\n");
          j = 0;
          dynArray[k] = '\n';
          k++;
-         while (s[i][j] != '\0') {
-            if (s[i][j] != '\0') {
+         while (s[i][j] != '\0')
+         {
+            if (s[i][j] != '\0')
+            {
                dynArray[k] = s[i][j++];
                k++;
             }
@@ -235,8 +240,10 @@ char* createAndLoadDynArray(char **s, int max, int wc)
          dynArray[k] = '\n';
          k++;
          j = 0;
-         while (s[i][j] != '\0') {
-            if (s[i][j] != '\0') {
+         while (s[i][j] != '\0')
+         {
+            if (s[i][j] != '\0')
+            {
                dynArray[k] = s[i][j++];
                k++;
             }
@@ -246,12 +253,33 @@ char* createAndLoadDynArray(char **s, int max, int wc)
 
       } else if (strcmp(s[i], "=") == 0) {
          dynArray[k-1] = '=';
+      } else if (s[i][0] == '#'){
+         j = 0;
+         
+         while (s[i][j] != '\0')
+         {
+            if (s[i][j] == '[') {
+               dynArray[k] = s[i][j++];
+               k++;
+               dynArray[k] = ' ';
+               k++;
+            } else if (s[i][j] == ']') {
+               dynArray[k] = ' ';
+               k++;
+               dynArray[k] = s[i][j++];
+               k++;
+            } else /*(s[i][j] != '\0')*/ {
+               dynArray[k] = s[i][j++];
+               k++;
+            }
+         }
+         dynArray[k++] = '\n';
       } else {
          // printf("debug: entered else condition\n");
          j = 0;
 
-         
-         while (s[i][j] != '\0') {
+         while (s[i][j] != '\0')
+         {
             if (s[i][j] == '[') {
                dynArray[k] = s[i][j++];
                k++;
