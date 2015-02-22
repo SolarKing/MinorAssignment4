@@ -256,6 +256,31 @@ char* createAndLoadDynArray(char **s, int max, int wc)
       {
          dynArray[k-1] = '=';
       } 
+      else if (strrchr(s[i], '\"'))
+      {
+         char *pch;
+         pch=strrchr(s[i], '\"');
+         j = 0;
+         while (s[i][j] != '\0')
+         {
+            if (s[i][j] != '\0')
+            {
+               dynArray[k] = s[i][j++];
+               k++;
+            }
+         }
+         if (s[i][pch-s[i]+2] == '\0')
+         {
+            // printf("debug: entered if condition...\n");
+            dynArray[k] = '\n';
+            k++;
+         }
+         else
+         {
+            dynArray[k] = ' ';
+            k++;
+         }
+      }
       else if (s[i][0] == '#')
       {
          j = 0;   
