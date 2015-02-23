@@ -235,7 +235,7 @@ char* createAndLoadDynArray(char **s, int max, int wc)
          dynArray[k] = ' ';
          k++;
 
-      } else if (strcmp(s[i], "then") == 0 || strcmp(s[i], "else") == 0 || strcmp(s[i], "fi") == 0) {
+      } else if (strcmp(s[i], "then") == 0 || strcmp(s[i], "else") == 0 || strcmp(s[i], "fi") == 0 || strcmp(s[i], "echo") == 0 ||strcmp(s[i], "ls") == 0 ||strcmp(s[i], "tar") == 0 ||strcmp(s[i], "grep") == 0 ||strcmp(s[i], "rm") == 0 ||strcmp(s[i], "mkdir") == 0 ||strcmp(s[i], "mv") == 0 || strcmp(s[i], "cp") == 0 ||strcmp(s[i], "cd") == 0 || strcmp(s[i], "chmod") == 0 || strcmp(s[i], "pwd") == 0 || strcmp(s[i], "rmdir") == 0) {
          // printf("debug: entered \"then\" condition\n");
          dynArray[k] = '\n';
          k++;
@@ -256,31 +256,6 @@ char* createAndLoadDynArray(char **s, int max, int wc)
       {
          dynArray[k-1] = '=';
       } 
-      else if (strrchr(s[i], '\"'))
-      {
-         char *pch;
-         pch=strrchr(s[i], '\"');
-         j = 0;
-         while (s[i][j] != '\0')
-         {
-            if (s[i][j] != '\0')
-            {
-               dynArray[k] = s[i][j++];
-               k++;
-            }
-         }
-         if (s[i][pch-s[i]+2] == '\0')
-         {
-            // printf("debug: entered if condition...\n");
-            dynArray[k] = '\n';
-            k++;
-         }
-         else
-         {
-            dynArray[k] = ' ';
-            k++;
-         }
-      }
       else if (s[i][0] == '#')
       {
          j = 0;   
